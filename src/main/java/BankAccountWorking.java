@@ -20,20 +20,18 @@ import java.util.Scanner;
 public class BankAccountWorking  {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
-        //BankAccount bankAccount2 = new BankAccount(
-        //        "Michael",
-        //        Calendar.getInstance().getTime(),
-        //        "0123456789",
-        //        100.0
-        //);
-
        BankAccount bankAccount = new BankAccount();
+        System.out.println("bankAccount created & not deserialized yet" + bankAccount);
        File accountFile = new File("account.dat");
        if (accountFile.exists()) { // check if account.dat exists
             // bankAccount deserialization
             FileInputStream fileInputStream = new FileInputStream("account.dat");
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            bankAccount = (BankAccount)objectInputStream.readObject();
+            System.out.println("before deserialization, empty bankAccount " + bankAccount);
+            bankAccount = (BankAccount) objectInputStream.readObject();
+            System.out.println("bankAccount after deserialization " + bankAccount);
+            System.out.println("fileInputStream after deserialization " + fileInputStream.hashCode());
+            System.out.println("objectInputStream after deserialization " + objectInputStream.hashCode());
         }
             else {
                 Scanner scanner = new Scanner(System.in);
@@ -55,41 +53,56 @@ public class BankAccountWorking  {
         System.out.println("Your money balance is: " + BankAccount.getMoneyAmount());
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the amount of money to cash in/out: ");
-        System.out.println("Enter 0 to exit");
-        double userInput = scanner.nextDouble()
+        double userInput = 1;
         while (userInput != 0) {
+            System.out.println("Enter the amount of money to cash in/out: ");
+            System.out.println("Enter 0 to exit");
+            userInput = scanner.nextDouble();
             if (userInput > 0) {
-                bankAccount.cashIn(userInput);
+                try {
+                    bankAccount.cashIn(userInput);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-            else
-                bankAccount.cashOut(userInput);
+            else {
+                try {
+                    bankAccount.cashOut(userInput);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            System.out.println("Your current balance is: " + BankAccount.getMoneyAmount());
         }
 
         // bankAccount serialization
         FileOutputStream fileOutputStream = new FileOutputStream("account.dat");
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+        System.out.println("bankAccount just before serialization " + bankAccount);
         objectOutputStream.writeObject(bankAccount);
         objectOutputStream.flush();
         objectOutputStream.close();
+        System.out.println("fileOutputStream after serialization " + fileOutputStream.hashCode());
+        System.out.println("objectOutputStream after serialization " + objectOutputStream.hashCode());
+        //break;
 
         // cashing in
-        Scanner scanner = new Scanner(System.in);
-        try {
-            double value = scanner.nextDouble();
-            bankAccount.cashIn(value);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        //Scanner scanner = new Scanner(System.in);
+        //try {
+        //    double value = scanner.nextDouble();
+        //    bankAccount.cashIn(value);
+        //} catch (Exception e) {
+        //    System.out.println(e);
+        //}
 
         // System.out.println("BankAccount: " + bankAccount.getMoneyAmount());
 
         // cashing out
-        try {
-            double value = scanner.nextDouble();
-            bankAccount.cashOut(value);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        //try {
+        //    double value = scanner.nextDouble();
+        //    bankAccount.cashOut(value);
+        //} catch (Exception e) {
+        //    System.out.println(e);
+        //}
     }
 }
