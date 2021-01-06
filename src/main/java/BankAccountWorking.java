@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class BankAccountWorking  {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
 
         //BankAccount bankAccount2 = new BankAccount(
         //        "Michael",
@@ -39,16 +39,33 @@ public class BankAccountWorking  {
                 Scanner scanner = new Scanner(System.in);
                 try {
                     System.out.println("Enter the name:");
-                    bankAccount.setName = scanner.nextLine();
-                    bankAccount.setDateOfCreation = Calendar.getInstance().getTime();
+                    bankAccount.setName(scanner.nextLine());
+                    bankAccount.setDateOfCreation(Calendar.getInstance().getTime());
                     System.out.println("Enter the account number:");
-                    bankAccount.setAccountNumber = scanner.nextLine();
+                    bankAccount.setAccountNumber(scanner.nextLine());
                     System.out.println("Enter the money amount:");
-                    bankAccount.setMoneyAmount = scanner.nextDouble();
+                    bankAccount.setMoneyAmount(scanner.nextDouble());
                 } catch (Exception e) {
                     System.out.println(e);
                 }
         }
+
+        System.out.println("Hello, " + BankAccount.getName() + "!");
+        System.out.println("Your account number is: " + BankAccount.getAccountNumber());
+        System.out.println("Your money balance is: " + BankAccount.getMoneyAmount());
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the amount of money to cash in/out: ");
+        System.out.println("Enter 0 to exit");
+        double userInput = scanner.nextDouble()
+        while (userInput != 0) {
+            if (userInput > 0) {
+                bankAccount.cashIn(userInput);
+            }
+            else
+                bankAccount.cashOut(userInput);
+        }
+
         // bankAccount serialization
         FileOutputStream fileOutputStream = new FileOutputStream("account.dat");
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);

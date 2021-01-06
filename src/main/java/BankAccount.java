@@ -4,10 +4,10 @@ import java.io.Serializable;
 // import java.util.Arrays;
 
 public class BankAccount implements Serializable {
-    private String name;
-    private Date dateOfCreation;
-    private String accountNumber;
-    private double moneyAmount;
+    private static String name; // "static" added
+    private static Date dateOfCreation; // "static" added
+    private static String accountNumber; // "static" added
+    private static double moneyAmount; // "static" added
 
     BankAccount() {
         this.name = "UNKNOWN";
@@ -31,20 +31,36 @@ public class BankAccount implements Serializable {
         this.moneyAmount = bankAccount.moneyAmount;
     }
 
-    public String getName() {
+    public static String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getDateOfCreation() {
         return dateOfCreation;
     }
 
-    public String getAccountNumber() {
+    public void setDateOfCreation(Date dateOfCreation) {
+        this.dateOfCreation = dateOfCreation;
+    }
+
+    public static String getAccountNumber() {
         return accountNumber;
     }
 
-    public double getMoneyAmount() {
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public static double getMoneyAmount() {
         return moneyAmount;
+    }
+
+    public void setMoneyAmount(double moneyAmount) {
+        this.moneyAmount = moneyAmount;
     }
 
     public double cashIn(double value) throws Exception {
